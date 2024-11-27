@@ -3,6 +3,15 @@ import { Inter, Noto_Sans, Modak, DynaPuff } from 'next/font/google'
 import Header from '@/components/layout/Header'
 import './globals.css'
 
+
+export const metadata: Metadata = {
+  title: 'Road a Najah | Empower Your Education',
+  description: 'Empowering young people and students to achieve their goals',
+  icons: {
+    icon: 'road.ico',
+    apple: 'road.ico'
+  }
+}
 // Initialize DynaPuff font
 const dynaPuff = DynaPuff({
   subsets: ['latin'],

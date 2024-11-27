@@ -7,21 +7,24 @@ import BlurFade from '@/components/ui/blur-fade'
 const HeroSection = () => {
   return (
     <div className="relative min-h-screen flex items-center">
-      {/* Background remains the same */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-white" />
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 flex justify-center items-center">
-            <div className="w-[1000px] h-[1000px] bg-pink-100/30 blur-[180px] rounded-full" />
-          </div>
-          <div className="absolute -top-1/4 right-1/3 w-[700px] h-[700px]">
-            <div className="absolute inset-0 bg-red-100/40 rounded-full blur-[150px]" />
-          </div>
-          <div className="absolute bottom-1/4 left-1/4 w-[600px] h-[600px]">
-            <div className="absolute inset-0 bg-blue-100/30 rounded-full blur-[150px]" />
-          </div>
+    {/* Background with z-index control */}
+    <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 bg-white/90" />
+      <div className="absolute inset-0 overflow-hidden z-10">
+        {/* Center pink blur */}
+        <div className="absolute inset-0 flex justify-center items-center z-20">
+          <div className="w-[1000px] h-[500px] bg-pink-300/20 blur-[100px] rounded-full" />
+        </div>
+        {/* Left red blur */}
+        <div className="absolute -top-4 left-32 w-[400px] h-[400px] z-20">
+          <div className="w-[500px] h-[500px] inset-0 bg-orange-300/50 rounded-full blur-[180px]" />
+        </div>
+        {/* Right blue blur */}
+        <div className="absolute top-8 right-60 w-[400px] h-[400px] z-20">
+          <div className="w-[500px] h-[500px] inset-0 bg-blue-300/50 rounded-full blur-[120px]" />
         </div>
       </div>
+    </div>
 
       {/* Content Container */}
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
@@ -70,12 +73,38 @@ const HeroSection = () => {
                 {/* Road a Najah positioned to partially cover 'tion' */}
                 <div className="absolute top-20 -right-40 transform -rotate-12">
                   <motion.div
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    initial={{ 
+                      y: 30,
+                      opacity: 0,
+                      scale: 0.9,
+                      rotate: -25
+                    }}
+                    animate={{ 
+                      y: 0,
+                      opacity: 1,
+                      scale: 1,
+                      rotate: 0
+                    }}
+                    transition={{ 
+                      duration: 1.2,
+                      ease: [0.23, 1, 0.32, 1], // Custom easing for smooth motion
+                      opacity: { duration: 0.8 },
+                      scale: { duration: 1 },
+                      rotate: { duration: 1.4 }
+                    }}
                   >
                     <span className="inline-block bg-blue-400 px-6 py-6 rounded-full text-gray-300 text-3xl md:text-4xl lg:text-5xl font-modak">
-                      Road a Najah
+                      <motion.span
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ 
+                          duration: 0.6,
+                          delay: 0.3,
+                          ease: "easeOut"
+                        }}
+                      >
+                        Road a Najah
+                      </motion.span>
                     </span>
                   </motion.div>
                 </div>
@@ -84,8 +113,8 @@ const HeroSection = () => {
 
             {/* Description Text */}
             <BlurFade delay={0.6} inView>
-              <div className="text-left max-w-xl mx-auto mt-8">
-                <p className="text-gray-600 text-lg leading-relaxed font-noto-sans">
+              <div className="text-left max-w-xl ml-0 mt-8">
+                <p className="text-yellow-800 text-xl leading-relaxed font-modak">
                   Join our educational platform and discover your path to success. 
                   Connect with expert mentors, access quality resources, and receive 
                   personalized guidance to achieve your academic goals.
