@@ -105,7 +105,7 @@ const Header = () => {
                   backdrop-blur-sm
                 "
               >
-                Sign in
+                join us
               </Button>
             </motion.div>
 
@@ -152,7 +152,7 @@ const Header = () => {
               ))}
               <div className="mt-4">
                 <Button className="w-full bg-blue-600/80 hover:bg-blue-700 text-white backdrop-blur-sm font-dynapuff">
-                  Sign in
+                  join us
                 </Button>
               </div>
             </div>

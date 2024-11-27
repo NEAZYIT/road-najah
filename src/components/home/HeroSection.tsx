@@ -1,11 +1,20 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import BlurFade from '@/components/ui/blur-fade'
+import { useRef } from 'react'
 
 const HeroSection = () => {
-  // SVG path animation variants
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  })
+
+  const opacity = useTransform(scrollYProgress, [0, 1], [5, 0])
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.95])
+
   const pathVariants = {
     hidden: {
       pathLength: 0,
@@ -20,15 +29,17 @@ const HeroSection = () => {
         delay: 0.8
       }
     }
-  };
+  }
 
   return (
-    <div className="relative min-h-screen flex items-center">
-      {/* Background with z-index control - keeping existing background code */}
+    <motion.div 
+      ref={sectionRef}
+      style={{ opacity, scale }}
+      className="relative min-h-screen flex items-center"
+    >
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-white/90" />
         <div className="absolute inset-0 overflow-hidden z-10">
-          {/* Existing blur elements */}
           <div className="absolute inset-0 flex justify-center items-center z-20">
             <div className="w-[1000px] h-[500px] bg-pink-300/20 blur-[100px] rounded-full" />
           </div>
@@ -41,10 +52,8 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Content Container */}
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         <div className="flex flex-col items-center">
-          {/* Existing Logo animation */}
           <motion.div
             initial={{ y: -50, opacity: 0, rotate: 0 }}
             animate={{ y: 0, opacity: 1, rotate: 360 }}
@@ -64,7 +73,6 @@ const HeroSection = () => {
             />
           </motion.div>
 
-          {/* Text Layout */}
           <div className="text-center max-w-4xl mx-auto">
             <BlurFade delay={0.2} inView>
               <div className="text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight text-gray-900 mb-4 font-dynapuff inline-flex">
@@ -75,7 +83,6 @@ const HeroSection = () => {
             
             <BlurFade delay={0.4} inView>
               <div className="flex items-center justify-center relative mb-12">
-                {/* Education and with text */}
                 <div className="flex items-baseline">
                   <span className="text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight text-gray-900 font-dynapuff">
                     Education
@@ -85,9 +92,7 @@ const HeroSection = () => {
                   </span>
                 </div>
 
-                {/* Road a Najah with curved line */}
                 <div className="absolute top-20 -right-32 transform -rotate-12">
-                  {/* Curved line SVG */}
                   <motion.svg
                     width="710"
                     height="600"
@@ -96,7 +101,6 @@ const HeroSection = () => {
                     initial="hidden"
                     animate="visible"
                   >
-                    {/* Define arrowhead marker */}
                     <defs>
                       <marker
                         id="arrowhead"
@@ -122,7 +126,6 @@ const HeroSection = () => {
                     />
                   </motion.svg>
 
-                  {/* Road a Najah text box */}
                   <motion.div
                     initial={{ 
                       y: 30,
@@ -162,7 +165,6 @@ const HeroSection = () => {
               </div>
             </BlurFade>
 
-            {/* Description Text */}
             <BlurFade delay={0.6} inView>
               <div className="text-left max-w-xl ml-0 mt-8">
                 <p className="text-yellow-800 text-xl leading-relaxed font-modak">
@@ -172,10 +174,30 @@ const HeroSection = () => {
                 </p>
               </div>
             </BlurFade>
+
+            <motion.div 
+              className="absolute left-[580px] top-[980px] transform -rotate-12"
+              initial={{ opacity: 0 }}
+              animate={{ 
+                opacity: 1,
+                y: [0, -8, 0] 
+              }}
+              transition={{
+                opacity: { duration: 0.8 },
+                y: {
+                  duration: 0.5,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                  ease: "easeInOut"
+                }
+              }}
+            >
+              <p className="text-gray-600 font-modak text-lg">Scroll to see our mission</p>
+            </motion.div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
