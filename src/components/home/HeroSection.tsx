@@ -168,7 +168,7 @@ const HeroSection = () => {
                 <p className="text-yellow-800 text-xl leading-relaxed font-modak">
                   Join our educational platform and discover your path to success. 
                   Connect with expert mentors, access quality resources, and receive 
-                  personalized guidance to achieve your academic goals.
+                  personalized guidance to achieve your academic goals
                 </p>
               </div>
             </BlurFade>
