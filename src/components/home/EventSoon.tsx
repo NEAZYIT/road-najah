@@ -39,7 +39,7 @@ const EventSoon = () => {
         <motion.div
           className="fixed inset-0 flex items-center justify-center z-40 overflow-hidden"
           style={{
-            background: 'linear-gradient(130deg, #050215 0%, #0C0422 30%, #130635 70%, #050215 100%)'
+            background: 'linear-gradient(130deg, #0A0A0A 0%, #1A1A1A 50%, #0A0A0A 100%)'
           }}
           initial={{ opacity: 0, x: '100%' }}
           animate={{ 
@@ -64,21 +64,21 @@ const EventSoon = () => {
           }}
         >
           {/* Background Effects */}
-          <div className="absolute inset-0 overflow-hidden">
-            {/* Large Dev Grid */}
+          <div className="absolute inset-0">
+            {/* Animated Grid */}
             <motion.div
               className="absolute inset-0"
               style={{
-                backgroundImage: `linear-gradient(90deg, rgba(99, 102, 241, 0.05) 2px, transparent 2px),
-                                linear-gradient(180deg, rgba(99, 102, 241, 0.05) 2px, transparent 2px)`,
-                backgroundSize: '120px 120px',
+                backgroundImage: `linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                                linear-gradient(180deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)`,
+                backgroundSize: '50px 50px',
               }}
               animate={{
-                y: [0, 120],
-                x: [0, 120]
+                y: [0, 50],
+                x: [0, 50]
               }}
               transition={{
-                duration: 25,
+                duration: 20,
                 repeat: Infinity,
                 ease: "linear"
               }}
@@ -164,9 +164,7 @@ const EventSoon = () => {
               }}
             >
               <HyperText
-                className="text-9xl font-[VT323] tracking-wide text-transparent 
-                           bg-clip-text bg-gradient-to-r from-red-500 to-yellow-500 
-                           drop-shadow-[0_0_20px_rgba(239,68,68,0.3)] animate-pulse"
+                className="text-9xl font-[VT323] tracking-wide text-red-500"
                 text="Event Coming Soon"
               />
               <motion.p
@@ -191,7 +189,7 @@ const EventSoon = () => {
           {/* Enhanced Vignette */}
           <div className="absolute inset-0 pointer-events-none" 
                style={{
-                 background: 'radial-gradient(circle at center, transparent 0%, #050215 90%)',
+                 background: 'radial-gradient(circle at center, transparent 0%, #0A0A0A 90%)',
                  opacity: 0.8
                }} 
           />
