@@ -88,6 +88,7 @@ const CardSection = () => {
     >
       <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center overflow-hidden">
         <motion.div 
+          initial={{ x: "120%" }}  // Added this line to set initial position
           animate={{ x: xPosition }}
           className="flex gap-6 will-change-transform"
           transition={{
