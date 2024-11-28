@@ -1,9 +1,16 @@
 'use client'
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useEffect, useState } from 'react';
+import { motion, useScroll } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
 
-const cards = [
+interface Card {
+  title: string;
+  content: string;
+  buttonText: string;
+  color: string;
+}
+
+const cards: Card[] = [
   {
     title: "Feel the vibe of your Family",
     content: "Create stronger bonds with your relatives, learn to understand them better and share essential things about yourself during daily challenges and special events.",
@@ -32,44 +39,63 @@ const cards = [
 
 const CardSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [lastCardOffset, setLastCardOffset] = useState("0px");
+  const [xPosition, setXPosition] = useState("120%");
+  const lastScrollPosition = useRef(0);
   
-  useEffect(() => {
-    const calculateOffset = () => {
-      const totalCards = cards.length;
-      const cardWidth = 500;
-      const gap = 24;
-      const containerWidth = window.innerWidth;
-      const cardsWidth = totalCards * cardWidth + (totalCards - 1) * gap;
-      const offset = cardsWidth - containerWidth;
-      setLastCardOffset(`-${offset + 8}px`); // Adding small padding
-    };
-
-    calculateOffset();
-    window.addEventListener('resize', calculateOffset);
-    return () => window.removeEventListener('resize', calculateOffset);
-  }, []);
-
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"]
   });
 
-  const cardsTransform = useTransform(
-    scrollYProgress,
-    [0, 0.1, 0.5, 0.9], 
-    ["120%", "120%", "0%", lastCardOffset]
-  );
+  useEffect(() => {
+    return scrollYProgress.onChange((latest) => {
+      const scrollingDown = latest > lastScrollPosition.current;
+      lastScrollPosition.current = latest;
+
+      // Trigger event screen transitions first when scrolling up
+      if (!scrollingDown && latest <= 0.75) {
+        window.dispatchEvent(new CustomEvent('cardsComplete', { 
+          detail: { direction: 'backward' } 
+        }));
+      }
+
+      // Calculate card positions with adjusted timing
+      let newPosition = "120%";
+      if (latest <= 0.2) {
+        newPosition = "120%";
+      } else if (latest <= 0.4) {
+        newPosition = "60%";
+      } else if (latest <= 0.7) {
+        newPosition = "0%";
+      } else {
+        newPosition = "-150%";
+      }
+      setXPosition(newPosition);
+
+      // Trigger event screen when scrolling down
+      if (scrollingDown && latest >= 0.75) {
+        window.dispatchEvent(new CustomEvent('cardsComplete', { 
+          detail: { direction: 'forward' } 
+        }));
+      }
+    });
+  }, [scrollYProgress]);
 
   return (
     <div 
       ref={containerRef}
       className="min-h-[300vh] relative"
     >
-      <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center">
+      <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center overflow-hidden">
         <motion.div 
-          style={{ x: cardsTransform }}
-          className="flex gap-6"
+          animate={{ x: xPosition }}
+          className="flex gap-6 will-change-transform"
+          transition={{
+            type: "spring",
+            stiffness: 45,
+            damping: 25,
+            restDelta: 0.001
+          }}
         >
           {cards.map((card, index) => (
             <motion.div
@@ -84,6 +110,7 @@ const CardSection = () => {
                 justify-between
                 font-dynapuff
                 flex-shrink-0
+                transform-gpu
               `}
             >
               <div>
