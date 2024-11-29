@@ -38,3 +38,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# images
+/public/images/testimonial1.jpg
+/public/images/testimonial2.jpg
+/public/images/testimonial3.jpg
